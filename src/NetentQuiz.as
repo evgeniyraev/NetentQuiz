@@ -1,5 +1,6 @@
 package
 {
+	import flash.display.SimpleButton;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
@@ -22,6 +23,7 @@ package
 		private function setupView():void
 		{
 			placeTextFields();
+			placeButton();
 		}
 		
 		private function placeTextFields():void
@@ -51,6 +53,17 @@ package
 				
 				addChild(textField);
 			}
+		}
+		
+		private function placeButton():void
+		{
+			const place:Point = new Point(600, 400);
+			
+			var button:SimpleButton = new SpinButton();
+			button.x = place.x;
+			button.y = place.y;
+			
+			addChild(button)
 		}
 	}
 }
