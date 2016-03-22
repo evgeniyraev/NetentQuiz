@@ -4,6 +4,7 @@ package
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
+	import flash.events.MouseEvent;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.text.TextField;
@@ -63,7 +64,14 @@ package
 			button.x = place.x;
 			button.y = place.y;
 			
+			button.addEventListener(MouseEvent.CLICK, onButtonClick);
+			
 			addChild(button)
+		}
+		
+		protected function onButtonClick(event:MouseEvent):void
+		{
+			
 		}
 	}
 }
