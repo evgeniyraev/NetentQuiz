@@ -42,7 +42,7 @@ package Utils
 				if(sequence.length >= atIndex + notDuplicateIn)
 				{
 					var remain:uint = lenght - sequence.length;
-					var item:uint = sequence[atIndex + notDuplicateIn];
+					var item:uint = sequence[atIndex + notDuplicateIn - 1];
 					if(remain > atIndex)
 					{
 						available.push(item);

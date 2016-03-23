@@ -13,6 +13,7 @@ package
 	import Utils.WheelItemUtil;
 	
 	import Views.SpinButton;
+	import Views.Wheel;
 	import Views.WheelItem;
 	
 	[SWF(width="800", height="600")]
@@ -31,16 +32,10 @@ package
 			placeTextFields();
 			placeButton();
 			
-			var end:Vector.<uint> = new Vector.<uint>();
-			end.push(1);
-			end.push(2);
-			end.push(3);
+			var wheel:Wheel = new Wheel();
 			
-			var start:Vector.<uint> = new Vector.<uint>();
-			start.push(4);
-			start.push(1);
-			start.push(2);
-			trace(WheelItemUtil.randomSequence(10,WheelItem.availableTypes,start,end,3))
+			wheel.angle += Math.PI/2*0.30;
+			addChild(wheel);
 		}
 		
 		private function placeTextFields():void

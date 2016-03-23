@@ -13,16 +13,24 @@ package Views
 		availableTypes.push(5);
 		
 		public static const itemSize:Rectangle = new Rectangle(0,0,50,50)
-		private static const freeItems:Vector.<Vector.<WheelItem>> = new Vector.<Vector.<WheelItem>>(4);
+		private static const freeItems:Vector.<Vector.<WheelItem>> = new Vector.<Vector.<WheelItem>>();
 		
 		/**
 		 * factory + object pool
 		 */
 		public static function getItem(type:int):WheelItem
 		{
-			if(freeItems[type].length > 0)
+			if (freeItems.length < availableTypes.length)
 			{
-				return freeItems[type].pop()
+				while(freeItems.length < availableTypes.length)
+				{
+					freeItems.push(new Vector.<WheelItem>());
+				}
+			}
+			
+			if(freeItems[type - 1].length > 0)
+			{
+				return freeItems[type - 1].pop()
 			}
 			else
 			{
@@ -35,18 +43,20 @@ package Views
 					case 1:
 					{
 						sprite.graphics.beginFill(0xd5aa30);
-						sprite.graphics.drawCircle(50,50,50)
+						sprite.graphics.drawCircle(25,25,25)
 						break;
 					}
 					case 2:
 					{
 						sprite.graphics.beginFill(0xd5917e);
 						sprite.graphics.drawRect(0,0,50,50);
+						break;
 					}
 					case 3:
 					{
 						sprite.graphics.beginFill(0xd56db7);
 						sprite.graphics.drawRoundRect(0,0,50,50,30,30);
+						break;
 					}
 					case 4:
 					{
@@ -54,6 +64,7 @@ package Views
 						sprite.graphics.moveTo(25,3);
 						sprite.graphics.lineTo(50, 46);
 						sprite.graphics.lineTo(0,46);
+						break;
 					}
 					case 5:
 					{
@@ -62,6 +73,7 @@ package Views
 						sprite.graphics.moveTo(0,3)
 						sprite.graphics.lineTo(50,3);
 						sprite.graphics.lineTo(25, 46);
+						break;
 					}
 						
 					default:
@@ -78,7 +90,7 @@ package Views
 		
 		public static function returnItem(item:WheelItem):void
 		{
-			freeItems[item.type].push(item);
+			freeItems[item.type - 1].push(item);
 		}
 		
 		public var type:int = 0;
