@@ -64,7 +64,7 @@ package Utils
 		
 		public static function nameToIndex(name:String):uint
 		{
-			//“bell” , “cherry” , “lemon”, “orange”, “grape”.
+			
 			switch(name)
 			{
 				case "bell":

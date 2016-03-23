@@ -6,7 +6,8 @@ package Views
 	
 	public class Wheel extends Sprite
 	{
-		private static const buffer:uint = 10;
+		private const wheelLenght:uint = 20;
+		private const buffer:uint = 10;
 		
 		private var _numVisibleItems:uint = 3;
 		private var _views:Vector.<WheelItem>;
@@ -14,16 +15,6 @@ package Views
 		private var _angle:Number = 0;
 
 		private var _container:Sprite;
-		
-		public function get items():Vector.<uint>
-		{
-			return _items;
-		}
-
-		public function set items(value:Vector.<uint>):void
-		{
-			_items = value;
-		}
 
 		/**
 		 * the angle that the wheel is rotated
@@ -39,6 +30,20 @@ package Views
 		public function get angle():Number
 		{
 			return _angle;
+		}
+		
+		public function set end(value:Vector.<uint>):void
+		{
+			var startIndex:uint = _items.length - _numVisibleItems;
+			var start:Vector.<uint> = _items.slice(startIndex)
+			
+			_items = WheelItemUtil.randomSequence(
+				wheelLenght,
+				WheelItem.availableTypes,
+				start,
+				value,
+				_numVisibleItems
+			);
 		}
 		
 		public function Wheel(numVisibleItems:uint = 3)
@@ -87,8 +92,6 @@ package Views
 			addChild(maskSprite);
 			_container.mask = maskSprite;
 			addChild(_container);
-			//this.mask = maskSprite;
-			
 		}
 		/**
 		 * all items are full cicle so 2π
@@ -99,7 +102,7 @@ package Views
 		{
 			var oneWheelItemSection:Number = Math.PI * 2 / (1 / _items.length);
 			var workingAngle:Number = _angle % (Math.PI * 2);
-			var firstItemIndex:uint = int(workingAngle / oneWheelItemSection);
+			var firstItemIndex:uint = int(workingAngle / oneWheelItemSection) - 1;
 			var offset:Number = workingAngle % oneWheelItemSection;
 			var itemHeigh:Number = WheelItem.itemSize.height + buffer;
 			
@@ -109,11 +112,19 @@ package Views
 				view = _views[i];
 				_container.removeChild(view);
 				WheelItem.returnItem(view);
-				view = WheelItem.getItem(_items[firstItemIndex + i]);
+				view = WheelItem.getItem(_items[(firstItemIndex + i + _items.length)%_items.length]);
 				_container.addChild(view);
 				
+				_views.splice(i,1,view);
 				view.y = (i + offset - 1) * itemHeigh;
 			}
+		}
+		
+		public function complete():void
+		{
+			var startIndex:uint = _items.length - _numVisibleItems - 1;
+			_items = _items.slice(startIndex);
+			_angle = 0
 		}
 	}
 }

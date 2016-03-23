@@ -1,5 +1,7 @@
 package
 {
+	import com.greensock.TweenMax;
+	
 	import flash.display.SimpleButton;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
@@ -9,6 +11,8 @@ package
 	import flash.geom.Rectangle;
 	import flash.text.TextField;
 	import flash.text.TextFieldType;
+	
+	import Utils.WheelItemUtil;
 	
 	import Views.SpinButton;
 	import Views.Wheel;
@@ -99,7 +103,52 @@ package
 		
 		protected function onButtonClick(event:MouseEvent):void
 		{
+			var i:int, index:int;
+			var len:int;
+			var endItems:Vector.<Vector.<uint>> = new Vector.<Vector.<uint>>;
+			for(i=0; i< 3; i++)
+			{
+				endItems.push(new Vector.<uint>);
+			}
 			
+			var haveErrors:Boolean = false;
+			for(i = 0, len = textFields.length; i < len; i++)
+			{
+				index = WheelItemUtil.nameToIndex(textFields[i].text);
+				if(index == 0)
+				{
+					textFields[i].borderColor = 0xFF0000;
+					haveErrors = true;
+				}
+				else
+				{
+					textFields[i].borderColor = 0xCCCCCC;
+					endItems[int(i/3)].push(index);
+				}
+			}
+			
+			if(haveErrors)
+			{
+				return;
+			}
+			
+			var firstSpin:Number = 2;
+			var nextSping:Number = 0.7;
+			
+			
+			for(i = 0, len = wheels.length; i < len; i++)
+			{
+				wheels[i].end = endItems[i];
+				
+				TweenMax.to(
+					wheels[i],
+					firstSpin + nextSping*i,
+					{
+						angle:((i+2) * 3 * Math.PI * 2),
+						onComplete:wheels[i].complete
+					}
+				);
+			}
 		}
 	}
 }
