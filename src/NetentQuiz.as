@@ -10,15 +10,14 @@ package
 	import flash.text.TextField;
 	import flash.text.TextFieldType;
 	
-	import Utils.WheelItemUtil;
-	
 	import Views.SpinButton;
 	import Views.Wheel;
-	import Views.WheelItem;
 	
 	[SWF(width="800", height="600")]
 	public class NetentQuiz extends Sprite
 	{
+		private var textFields:Vector.<TextField>;
+		private var wheels:Vector.<Wheel>;
 		public function NetentQuiz()
 		{
 			stage.scaleMode = StageScaleMode.NO_SCALE;
@@ -29,13 +28,28 @@ package
 		
 		private function setupView():void
 		{
+			placeWheels();
 			placeTextFields();
 			placeButton();
+		}
+		
+		private function placeWheels():void
+		{
+			const place:Point = new Point(50, 50);
+			const padding:uint = 70;
 			
-			var wheel:Wheel = new Wheel();
+			wheels = new Vector.<Wheel>();
 			
-			wheel.angle += Math.PI/2*0.30;
-			addChild(wheel);
+			var i:int;
+			var wheel:Wheel;
+			for(i = 0; i < 3; i++)
+			{
+				wheel = new Wheel();
+				wheel.x = place.x + i * padding;
+				wheel.y = place.y;
+				addChild(wheel);
+				wheels.push(wheel);
+			}
 		}
 		
 		private function placeTextFields():void
@@ -45,6 +59,8 @@ package
 			//x,y is padding
 			//width, height is size of field
 			const size:Rectangle = new Rectangle(10,10, 70, 30);
+			
+			textFields = new Vector.<TextField>();
 			
 			var i:uint = 0;
 			var textField:TextField;
@@ -64,6 +80,7 @@ package
 				textField.y = place.y + int(i/3)*(size.y + size.height);
 				
 				addChild(textField);
+				textFields.push(textField);
 			}
 		}
 		

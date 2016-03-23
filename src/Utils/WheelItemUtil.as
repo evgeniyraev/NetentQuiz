@@ -62,6 +62,35 @@ package Utils
 		 */
 		public static const epmpyVect:Vector.<uint> = new Vector.<uint>();
 		
+		public static function nameToIndex(name:String):uint
+		{
+			//“bell” , “cherry” , “lemon”, “orange”, “grape”.
+			switch(name)
+			{
+				case "bell":
+				{
+					return 1;
+				}
+				case "cherry":
+				{
+					return 2;
+				}
+				case "lemon":
+				{
+					return 3;
+				}
+				case "orange":
+				{
+					return 4;
+				}
+				case "grape":
+				{
+					return 5;
+				}
+			}
+			return 0;
+		}
+		
 		public function WheelItemUtil()
 		{
 		}

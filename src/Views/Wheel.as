@@ -12,6 +12,8 @@ package Views
 		private var _views:Vector.<WheelItem>;
 		private var _items:Vector.<uint>;
 		private var _angle:Number = 0;
+
+		private var _container:Sprite;
 		
 		public function get items():Vector.<uint>
 		{
@@ -60,15 +62,17 @@ package Views
 		private function setupView():void
 		{
 			var view:Sprite;
+			
+			_container = new Sprite();
 
 			for(var i:int = 0; i < _items.length; i++)
 			{
 				view = WheelItem.getItem(_items[i])
 				_views.push(view);
 				
-				view.y = WheelItem.itemSize.height * (i -1) + buffer;
+				view.y = (WheelItem.itemSize.height + buffer) * (i -1);
 				
-				addChild(view);
+				_container.addChild(view);
 			}
 			
 			var maskSprite:Sprite = new Sprite();
@@ -77,10 +81,13 @@ package Views
 				0,
 				0,
 				WheelItem.itemSize.width,
-				WheelItem.itemSize.height*_numVisibleItems);
+				(WheelItem.itemSize.height + buffer) * _numVisibleItems);
 			maskSprite.graphics.endFill();
 			
-			this.mask = maskSprite;
+			addChild(maskSprite);
+			_container.mask = maskSprite;
+			addChild(_container);
+			//this.mask = maskSprite;
 			
 		}
 		/**
@@ -100,10 +107,10 @@ package Views
 			for(var i:uint = 0, len:uint = _views.length; i < len; i++)
 			{
 				view = _views[i];
-				removeChild(view);
+				_container.removeChild(view);
 				WheelItem.returnItem(view);
 				view = WheelItem.getItem(_items[firstItemIndex + i]);
-				addChild(view);
+				_container.addChild(view);
 				
 				view.y = (i + offset - 1) * itemHeigh;
 			}
