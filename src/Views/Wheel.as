@@ -1,5 +1,7 @@
 package Views
 {
+	import com.greensock.TweenMax;
+	
 	import flash.display.Sprite;
 	
 	import Utils.WheelItemUtil;
@@ -118,6 +120,25 @@ package Views
 				_views.splice(i,1,view);
 				view.y = (i + offset - 1) * itemHeigh;
 			}
+		}
+		
+		public function spinTo(elements:Vector.<uint>, withDelay:Number, numberOfSpins:uint):void
+		{
+			end = elements;
+			
+			var oneWheelItemSection:Number = Math.PI * 2 * (1 / _items.length);
+			var endAngle:Number = Math.PI * 2 *numberOfSpins - elements.length*oneWheelItemSection;
+			
+			TweenMax.to(
+				this,
+				withDelay,
+				{
+					angle:endAngle,
+					onComplete:complete
+				}
+			);
+			
+			
 		}
 		
 		public function complete():void

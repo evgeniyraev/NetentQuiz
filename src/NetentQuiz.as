@@ -123,7 +123,7 @@ package
 				else
 				{
 					textFields[i].borderColor = 0xCCCCCC;
-					endItems[int(i/3)].push(index);
+					endItems[i%3].push(index);
 				}
 			}
 			
@@ -138,6 +138,8 @@ package
 			
 			for(i = 0, len = wheels.length; i < len; i++)
 			{
+				wheels[i].spinTo(endItems[i], firstSpin + nextSping*i, 3 + i);
+				/*
 				wheels[i].end = endItems[i];
 				
 				TweenMax.to(
@@ -148,6 +150,7 @@ package
 						onComplete:wheels[i].complete
 					}
 				);
+				*/
 			}
 		}
 	}
