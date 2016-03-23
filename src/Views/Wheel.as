@@ -17,6 +17,8 @@ package Views
 		private var _angle:Number = 0;
 
 		private var _container:Sprite;
+		
+		public var completeListener:Function;
 
 		/**
 		 * the angle that the wheel is rotated
@@ -104,7 +106,7 @@ package Views
 		{
 			var oneWheelItemSection:Number = Math.PI * 2 * (1 / _items.length);
 			var workingAngle:Number = _angle % (Math.PI * 2);
-			var firstItemIndex:int = int(workingAngle / oneWheelItemSection) - 1;
+			var firstItemIndex:int = Math.round(workingAngle / oneWheelItemSection) - 1;
 			var offset:Number = workingAngle % oneWheelItemSection;
 			var itemHeigh:Number = WheelItem.itemSize.height + buffer;
 			
@@ -145,7 +147,10 @@ package Views
 		{
 			var startIndex:uint = _items.length - _numVisibleItems - 1;
 			_items = _items.slice(startIndex);
-			_angle = 0
+			_angle = 0;
+			if(completeListener != null)
+				completeListener.call(this);
 		}
+		
 	}
 }

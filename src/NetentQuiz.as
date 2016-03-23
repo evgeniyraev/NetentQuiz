@@ -1,7 +1,5 @@
 package
 {
-	import com.greensock.TweenMax;
-	
 	import flash.display.SimpleButton;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
@@ -22,6 +20,9 @@ package
 	{
 		private var textFields:Vector.<TextField>;
 		private var wheels:Vector.<Wheel>;
+		private var button:SimpleButton;
+		private var numWheelCompletedSpining:uint = 0;
+		
 		public function NetentQuiz()
 		{
 			stage.scaleMode = StageScaleMode.NO_SCALE;
@@ -51,6 +52,7 @@ package
 				wheel = new Wheel();
 				wheel.x = place.x + i * padding;
 				wheel.y = place.y;
+				wheel.completeListener = onComplete;
 				addChild(wheel);
 				wheels.push(wheel);
 			}
@@ -92,7 +94,7 @@ package
 		{
 			const place:Point = new Point(600, 400);
 			
-			var button:SimpleButton = new SpinButton();
+			button = new SpinButton();
 			button.x = place.x;
 			button.y = place.y;
 			
@@ -103,6 +105,9 @@ package
 		
 		protected function onButtonClick(event:MouseEvent):void
 		{
+			if(button.enabled == false)
+				return;
+			
 			var i:int, index:int;
 			var len:int;
 			var endItems:Vector.<Vector.<uint>> = new Vector.<Vector.<uint>>;
@@ -139,18 +144,17 @@ package
 			for(i = 0, len = wheels.length; i < len; i++)
 			{
 				wheels[i].spinTo(endItems[i], firstSpin + nextSping*i, 3 + i);
-				/*
-				wheels[i].end = endItems[i];
 				
-				TweenMax.to(
-					wheels[i],
-					firstSpin + nextSping*i,
-					{
-						angle:((i+2) * 3 * Math.PI * 2),
-						onComplete:wheels[i].complete
-					}
-				);
-				*/
+			}
+			button.enabled = false;
+			numWheelCompletedSpining = 0;
+		}
+		
+		protected function onComplete():void{
+			numWheelCompletedSpining += 1;
+			if (numWheelCompletedSpining == wheels.length)
+			{
+				button.enabled = true
 			}
 		}
 	}

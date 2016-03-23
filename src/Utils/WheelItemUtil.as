@@ -28,7 +28,7 @@ package Utils
 			
 			function getRandom():uint
 			{
-				var index:Number = Math.round(Math.random()*available.length) -1;
+				var index:Number = Math.round(Math.random()*available.length - 1);
 				
 				return available.splice(index, 1)[0]
 			}
