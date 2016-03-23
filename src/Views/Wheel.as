@@ -100,9 +100,9 @@ package Views
 		 */
 		private function updateView():void
 		{
-			var oneWheelItemSection:Number = Math.PI * 2 / (1 / _items.length);
+			var oneWheelItemSection:Number = Math.PI * 2 * (1 / _items.length);
 			var workingAngle:Number = _angle % (Math.PI * 2);
-			var firstItemIndex:uint = int(workingAngle / oneWheelItemSection) - 1;
+			var firstItemIndex:int = int(workingAngle / oneWheelItemSection) - 1;
 			var offset:Number = workingAngle % oneWheelItemSection;
 			var itemHeigh:Number = WheelItem.itemSize.height + buffer;
 			
