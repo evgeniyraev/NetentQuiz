@@ -10,8 +10,10 @@ package
 	import flash.text.TextField;
 	import flash.text.TextFieldType;
 	
-	import wheels.IWheel;
-	import wheels.RealWheel;
+	import Utils.WheelItemUtil;
+	
+	import Views.SpinButton;
+	import Views.WheelItem;
 	
 	[SWF(width="800", height="600")]
 	public class NetentQuiz extends Sprite
@@ -22,14 +24,23 @@ package
 			stage.align = StageAlign.TOP_LEFT;
 			
 			setupView();
-			
-			var r:IWheel = new RealWheel();
 		}
 		
 		private function setupView():void
 		{
 			placeTextFields();
 			placeButton();
+			
+			var end:Vector.<uint> = new Vector.<uint>();
+			end.push(1);
+			end.push(2);
+			end.push(3);
+			
+			var start:Vector.<uint> = new Vector.<uint>();
+			start.push(4);
+			start.push(1);
+			start.push(2);
+			trace(WheelItemUtil.randomSequence(10,WheelItem.availableTypes,start,end,3))
 		}
 		
 		private function placeTextFields():void
